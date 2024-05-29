@@ -11,7 +11,11 @@ pipeline {
 		}
 		stage('SonarQube Analysis Stage') {
                         steps{ 
-                             sh 'mvn clean verify'
+                             sh '''mvn clean verify sonar:sonar \
+  				-Dsonar.projectKey=docker-multistagebuild-java \
+  				-Dsonar.projectName='docker-multistagebuild-java' \
+  				-Dsonar.host.url=http://18.61.160.246:9000 \
+  				-Dsonar.token=sqp_e5853f9af260acad86c9d331566f4566027d6d30 '''
             		}
         	}
 		stage ('Build and Create docker image') {
