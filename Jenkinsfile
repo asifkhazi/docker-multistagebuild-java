@@ -9,6 +9,13 @@ pipeline {
 				git branch:'main', url:'https://github.com/asifkhazi/docker-multistagebuild-java.git'
 			}
 		}
+		stage('SonarQube Analysis Stage') {
+                        steps{
+                           withSonarQubeEnv('sonarqube') { 
+                           	sh "mvn clean verify sonar:sonar -Dsonar.projectKey=sample"
+                	   }
+            		}
+        	}
 		stage ('Build and Create docker image') {
 			steps {
 				sh 'docker build -t ${Docker_Cred_USR}/tomcatjar:${BUILD_ID} -f Dockerfile .'
